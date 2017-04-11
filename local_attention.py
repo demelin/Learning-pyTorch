@@ -86,4 +86,6 @@ class LocallyAttentiveDecoder(nn.Module):
         attn_hidden = self.get_attn_hidden(torch.cat([output, context_vector], 1))
         # Output predictions
         output = F.log_softmax(self.to_softmax(attn_hidden))
+        # Add time dimension
+        attn_hidden = attn_hidden.view(1, -1, self.hidden_size)
         return output, attn_hidden, attn_weights
